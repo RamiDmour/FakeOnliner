@@ -1,16 +1,15 @@
 package com.example.fakeonliner
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fakeonliner.databinding.CategoryListItemBinding
 
 class CategoryAdapter(private var dataSet: List<Category>) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val binding: CategoryListItemBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: CategoryListItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =

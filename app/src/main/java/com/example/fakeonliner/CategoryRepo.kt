@@ -1,7 +1,6 @@
 package com.example.fakeonliner
 
 import kotlinx.coroutines.delay
-
 class CategoryRepo {
 
     suspend fun getCategories(): List<Category> {

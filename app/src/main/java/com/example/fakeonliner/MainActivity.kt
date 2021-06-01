@@ -2,6 +2,7 @@ package com.example.fakeonliner
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,7 +11,9 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
 
 class MainActivity : AppCompatActivity() {
-    private val categoryViewModel: CategoryViewModel = CategoryViewModel(CategoryRepo())
+    private val categoryViewModel: CategoryViewModel by viewModels {
+        viewModelFactory { CategoryViewModel(CategoryRepo()) }
+    }
     private lateinit var binding: ActivityMainBinding
     private val categoryListAdapter = CategoryAdapter(emptyList())
 
