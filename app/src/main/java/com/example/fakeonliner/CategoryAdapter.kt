@@ -1,5 +1,6 @@
 package com.example.fakeonliner
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,13 @@ class CategoryAdapter(private var dataSet: List<Category>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.categoryTitle.text = dataSet[position].title
+        holder.binding.categoryTitle.setOnClickListener {
+            val context = holder.binding.root.context
+            val intent = Intent(context, ProductsActivity::class.java).apply {
+                putExtra("categoryId", dataSet[position].categoryId)
+            }
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount() = dataSet.size
