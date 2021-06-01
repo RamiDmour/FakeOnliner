@@ -8,38 +8,42 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakeonliner.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     private val categoryViewModel: CategoryViewModel = CategoryViewModel(CategoryRepo())
     private lateinit var binding: ActivityMainBinding
-    private val categoryListAdapter = CategoryAdapter(ArrayList())
+    private val categoryListAdapter = CategoryAdapter(emptyList())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
 
         binding.categoryList.layoutManager = LinearLayoutManager(this)
         binding.categoryList.adapter = categoryListAdapter
 
         lifecycleScope.launchWhenStarted {
             categoryViewModel.uiState.collect() {
-                when(it) {
+                when (it) {
                     is CategoryUiState.Success -> {
                         categoryListAdapter.updateData(it.categories)
-                        binding.categoryList.isVisible = true
-                        binding.progressBar.isVisible = false
+                        loadingVisibility(false)
                     }
-                    CategoryUiState.Empty -> TODO()
-                    is CategoryUiState.Error -> Snackbar.make(view, "Error: " + it.exception.localizedMessage, Snackbar.LENGTH_LONG).show()
+                    is CategoryUiState.Error -> Snackbar.make(
+                        binding.root,
+                        it.exception.localizedMessage,
+                        Snackbar.LENGTH_LONG
+                    ).show()
                     CategoryUiState.Loading -> {
-                        binding.progressBar.isVisible = true
-                        binding.categoryList.isVisible = false
+                        loadingVisibility(true)
                     }
                 }
             }
         }
+    }
+
+    private fun loadingVisibility(isLoading: Boolean) {
+        binding.categoryList.isVisible = !isLoading
+        binding.progressBar.isVisible = isLoading
     }
 }

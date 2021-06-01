@@ -5,28 +5,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fakeonliner.databinding.CategoryListItemBinding
 
-class CategoryAdapter(private val dataSet: ArrayList<Category>) :
+class CategoryAdapter(private var dataSet: List<Category>) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val categoryTitle: TextView = view.findViewById(R.id.category_title);
-    }
+    inner class ViewHolder(val binding: CategoryListItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.category_list_item, parent, false)
+        val binding =
+            CategoryListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return ViewHolder(view)
+        return ViewHolder(binding)
     }
 
-    fun updateData(data: ArrayList<Category>) {
-        dataSet.clear()
-        dataSet.addAll(data)
+    fun updateData(data: List<Category>) {
+        dataSet = data
         this.notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.categoryTitle.text = dataSet[position].title
+        holder.binding.categoryTitle.text = dataSet[position].title
     }
 
     override fun getItemCount() = dataSet.size
