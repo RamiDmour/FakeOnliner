@@ -1,5 +1,6 @@
-package com.example.fakeonliner
+package com.example.fakeonliner.repos
 
+import com.example.fakeonliner.models.ProductSimplified
 import kotlinx.coroutines.delay
 
 class ProductRepo {
@@ -11,7 +12,8 @@ class ProductRepo {
                     "https://i.dell.com/is/image/DellContent//content/dam/global-site-design/product_images/dell_client_products/desktops/inspiron_desktops/27_7790/general/new-category-page-desktop-inspiron-27-7790-3880-800x620.png?fmt=png-alpha&amp;wid=800&amp;hei=620",
                     "Title 1",
                     "Description 1"
-                ),ProductSimplified(
+                ),
+                ProductSimplified(
                     "https://meetingtomorrow.com/wp-content/uploads/2019/09/8BF79EAA-C291-890F-3B4303804F13173B.jpg",
                     "Title 2",
                     "Description 2"

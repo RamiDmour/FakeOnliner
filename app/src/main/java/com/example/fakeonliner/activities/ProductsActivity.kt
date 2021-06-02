@@ -1,4 +1,4 @@
-package com.example.fakeonliner
+package com.example.fakeonliner.activities
 
 import android.content.Context
 import android.content.Intent
@@ -8,7 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fakeonliner.ProductsUiState
+import com.example.fakeonliner.ProductsViewModel
+import com.example.fakeonliner.adapters.ProductsAdapter
 import com.example.fakeonliner.databinding.ActivityProductsBinding
+import com.example.fakeonliner.models.Category
+import com.example.fakeonliner.repos.ProductRepo
+import com.example.fakeonliner.viewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
 

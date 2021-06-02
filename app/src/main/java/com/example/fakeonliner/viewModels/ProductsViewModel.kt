@@ -2,6 +2,8 @@ package com.example.fakeonliner
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fakeonliner.models.ProductSimplified
+import com.example.fakeonliner.repos.ProductRepo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

@@ -1,9 +1,10 @@
-package com.example.fakeonliner
+package com.example.fakeonliner.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fakeonliner.databinding.ProductsListItemBinding
+import com.example.fakeonliner.models.ProductSimplified
 import com.squareup.picasso.Picasso
 
 class ProductsAdapter(private var products: List<ProductSimplified>) :
