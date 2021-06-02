@@ -15,11 +15,10 @@ class CategoryViewModel(private val categoryRepo: CategoryRepo) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            try {
-                _uiState.value = CategoryUiState.Success(categoryRepo.getCategories())
-            }
-            catch (e: Throwable) {
-                _uiState.value = CategoryUiState.Error(e)
+            _uiState.value = try {
+                CategoryUiState.Success(categoryRepo.getCategories())
+            } catch (e: Throwable) {
+                CategoryUiState.Error(e)
             }
         }
     }

@@ -11,14 +11,14 @@ import com.example.fakeonliner.CategoryViewModel
 import com.example.fakeonliner.adapters.CategoryAdapter
 import com.example.fakeonliner.databinding.ActivityMainBinding
 import com.example.fakeonliner.repos.CategoryRepo
-import com.example.fakeonliner.service.API
+import com.example.fakeonliner.service.onlinerApi
 import com.example.fakeonliner.viewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
 
 class MainActivity : AppCompatActivity() {
     private val categoryViewModel: CategoryViewModel by viewModels {
-        viewModelFactory { CategoryViewModel(CategoryRepo(API.onlinerApi)) }
+        viewModelFactory { CategoryViewModel(CategoryRepo(onlinerApi)) }
     }
     private lateinit var binding: ActivityMainBinding
     private val categoryListAdapter = CategoryAdapter(emptyList())

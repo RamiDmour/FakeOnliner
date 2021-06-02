@@ -28,3 +28,8 @@ data class Segment(
     val key: String,
     val name: String
 )
+
+data class BYRX(
+    val amount: String,
+    val currency: String
+)

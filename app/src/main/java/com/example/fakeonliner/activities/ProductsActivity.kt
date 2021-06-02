@@ -8,13 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.fakeonliner.ProductsUiState
-import com.example.fakeonliner.ProductsViewModel
 import com.example.fakeonliner.adapters.ProductsAdapter
 import com.example.fakeonliner.databinding.ActivityProductsBinding
 import com.example.fakeonliner.models.Category
 import com.example.fakeonliner.repos.ProductRepo
+import com.example.fakeonliner.service.onlinerApi
 import com.example.fakeonliner.viewModelFactory
+import com.example.fakeonliner.viewModels.ProductsUiState
+import com.example.fakeonliner.viewModels.ProductsViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
 
@@ -24,14 +25,13 @@ class ProductsActivity : AppCompatActivity() {
         val categoryId = intent.getStringExtra(CATEGORY_ID_KEY) ?: ""
 
         viewModelFactory {
-            ProductsViewModel(ProductRepo(), categoryId)
+            ProductsViewModel(ProductRepo(onlinerApi), categoryId)
         }
     }
     private val productsAdapter = ProductsAdapter(emptyList())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         binding = ActivityProductsBinding.inflate(layoutInflater)
 
@@ -43,11 +43,14 @@ class ProductsActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             productsViewModel.uiState.collect {
                 when (it) {
-                    is ProductsUiState.Error -> Snackbar.make(
-                        binding.root,
-                        it.exception.localizedMessage,
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                    is ProductsUiState.Error -> {
+                        Snackbar.make(
+                            binding.root,
+                            it.exception.localizedMessage,
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                        loadingVisibility(false)
+                    }
                     ProductsUiState.Loading -> loadingVisibility(true)
                     is ProductsUiState.Success -> {
                         productsAdapter.updateData(it.products)
