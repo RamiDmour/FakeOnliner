@@ -1,12 +1,11 @@
 package com.example.fakeonliner
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStore
-import androidx.lifecycle.get
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakeonliner.databinding.ActivityProductsBinding
@@ -15,16 +14,17 @@ import kotlinx.coroutines.flow.collect
 
 class ProductsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProductsBinding
-    private lateinit var productsViewModel: ProductsViewModel
+    private val productsViewModel: ProductsViewModel by viewModels {
+        val categoryId = intent.getStringExtra(CATEGORY_ID_KEY) ?: ""
+
+        viewModelFactory {
+            ProductsViewModel(ProductRepo(), categoryId)
+        }
+    }
     private val productsAdapter = ProductsAdapter(emptyList())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        var categoryId = ""
-
-        if (intent.getStringExtra("categoryId") != null)
-            categoryId = intent.getStringExtra("categoryId")!!
 
 
         binding = ActivityProductsBinding.inflate(layoutInflater)
@@ -33,15 +33,6 @@ class ProductsActivity : AppCompatActivity() {
 
         binding.productsList.layoutManager = LinearLayoutManager(this)
         binding.productsList.adapter = productsAdapter
-
-        productsViewModel = ViewModelProvider(
-            ViewModelStore(),
-            viewModelFactory {
-                ProductsViewModel(
-                    ProductRepo(),
-                    categoryId
-                )
-            }).get()
 
         lifecycleScope.launchWhenStarted {
             productsViewModel.uiState.collect {
@@ -61,6 +52,17 @@ class ProductsActivity : AppCompatActivity() {
             }
         }
     }
+
+    companion object {
+        private const val CATEGORY_ID_KEY = "CATEGORY_ID_KEY"
+
+        fun createIntent(context: Context, category: Category): Intent {
+            return Intent(context, ProductsActivity::class.java).apply {
+                putExtra(CATEGORY_ID_KEY, category.categoryId)
+            }
+        }
+    }
+
     private fun loadingVisibility(isLoading: Boolean) {
         binding.productsList.isVisible = !isLoading
         binding.progressBar.isVisible = isLoading

@@ -38,9 +38,6 @@ class ProductRepo {
 
         delay(1000)
 
-        return if(data[categoryId] != null)
-            data[categoryId]!!
-        else
-            emptyList()
+        return data[categoryId] ?: emptyList()
     }
 }

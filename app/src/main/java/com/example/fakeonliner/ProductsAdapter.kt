@@ -9,7 +9,13 @@ import com.squareup.picasso.Picasso
 class ProductsAdapter(private var products: List<ProductSimplified>) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val binding: ProductsListItemBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(private val binding: ProductsListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(product: ProductSimplified) {
+            binding.productTitle.text = product.title
+            binding.productDescription.text = product.description
+            Picasso.get().load(product.imageUrl).into(binding.productImage)
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ProductsListItemBinding =
@@ -19,9 +25,7 @@ class ProductsAdapter(private var products: List<ProductSimplified>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.productTitle.text = products[position].title
-        holder.binding.productDescription.text = products[position].description
-        Picasso.get().load(products[position].imageUrl).into(holder.binding.productImage)
+        holder.bind(products[position])
     }
 
     fun updateData(data: List<ProductSimplified>) {
