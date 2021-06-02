@@ -4,15 +4,11 @@ import kotlinx.coroutines.delay
 class CategoryRepo {
 
     suspend fun getCategories(): List<Category> {
-        delay(5000)
+        delay(2000)
 
         return listOf(
-            Category("Электроника"),
-            Category("Компьютеры и сети"),
-            Category("Бытовая техника"),
-            Category("Стройка и ремонт"),
-            Category("Дом и сад"),
-            Category("Авто и мото")
+            Category("Электроника", "Электроника"),
+            Category("Компьютеры и сети", "Компьютеры и сети"),
         )
     }
 }

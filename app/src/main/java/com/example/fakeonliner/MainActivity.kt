@@ -1,8 +1,8 @@
 package com.example.fakeonliner
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding.categoryList.adapter = categoryListAdapter
 
         lifecycleScope.launchWhenStarted {
-            categoryViewModel.uiState.collect() {
+            categoryViewModel.uiState.collect {
                 when (it) {
                     is CategoryUiState.Success -> {
                         categoryListAdapter.updateData(it.categories)

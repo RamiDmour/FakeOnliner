@@ -9,7 +9,16 @@ class CategoryAdapter(private var dataSet: List<Category>) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: CategoryListItemBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root) {
+            fun bind(category: Category) {
+                binding.categoryTitle.text = category.title
+                binding.categoryTitle.setOnClickListener {
+                    val context = binding.root.context
+                    val intent = ProductsActivity.createIntent(context, category)
+                    context.startActivity(intent)
+                }
+            }
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
@@ -24,7 +33,7 @@ class CategoryAdapter(private var dataSet: List<Category>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.binding.categoryTitle.text = dataSet[position].title
+        holder.bind(dataSet[position])
     }
 
     override fun getItemCount() = dataSet.size
