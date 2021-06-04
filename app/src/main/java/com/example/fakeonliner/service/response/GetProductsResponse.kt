@@ -30,7 +30,7 @@ data class GetProductsResponse(
         val micro_description: String,
         val name: String,
         val name_prefix: String,
-        val prices: Prices,
+        val prices: Prices?,
         val review_url: Any?,
         val reviews: Reviews,
         val sale: Sale,

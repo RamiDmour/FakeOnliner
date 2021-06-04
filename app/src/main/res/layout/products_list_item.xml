@@ -5,7 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="32dp"
-    android:orientation="horizontal">
+    android:focusable="true"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+
+  android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/product_image"
@@ -33,10 +37,21 @@
 
     <TextView
         android:id="@+id/product_description"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="@+id/product_title"
         app:layout_constraintTop_toBottomOf="@+id/product_title"
+        app:layout_constraintRight_toRightOf="@id/product_title"
+        app:layout_constraintEnd_toEndOf="@id/product_title"
         tools:text="Description" />
+    <TextView
+      android:id="@+id/price"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      tools:text="300BYN-600BYN"
+      android:textSize="16sp"
+      android:textColor="@color/black"
+      app:layout_constraintTop_toBottomOf="@id/product_description"
+      app:layout_constraintRight_toRightOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

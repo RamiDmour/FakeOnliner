@@ -1,5 +1,7 @@
 package com.example.fakeonliner.adapters
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +17,15 @@ class ProductsAdapter(private var products: List<ProductSimplified>) :
             binding.productTitle.text = product.title
             binding.productDescription.text = product.description
             Picasso.get().load(product.imageUrl).into(binding.productImage)
+            binding.root.setOnClickListener {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(product.productUri))
+                binding.root.context.startActivity(browserIntent)
+            }
+            if(product.priceMin != null && product.priceMax != null)
+                if(product.priceMin != product.priceMax)
+                    binding.price.text = "${product.priceMin}-${product.priceMax}"
+                else
+                    binding.price.text = product.priceMax
         }
     }
 
