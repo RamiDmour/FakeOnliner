@@ -5,6 +5,12 @@ data class ProductSimplified(
     val title: String,
     val description: String,
     val productUri: String,
-    val priceMin: String? = null,
-    val priceMax: String? = null
+    val productPrice: ProductPrice?
+)
+
+data class ProductPrice(
+    val priceMin: Float?,
+    val priceMax: Float?,
+    val currency: String?
+
 )

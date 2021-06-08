@@ -9,15 +9,15 @@ import retrofit2.http.Query
 
 interface OnlinerAPI {
     @GET("/schemas")
-    fun getCategories(
+    suspend fun getCategories(
         @Query("limit") limit: Int,
         @Query("page") page: Int
-    ): Call<SchemasResponse>
+    ): SchemasResponse
 
     @GET("/search/{key}")
-    fun getProducts(
+    suspend fun getProducts(
         @Path("key") path: String,
         @Query("limit") limit: Int,
         @Query("page") page: Int
-    ): Call<GetProductsResponse>
+    ): GetProductsResponse
 }

@@ -21,11 +21,14 @@ class ProductsAdapter(private var products: List<ProductSimplified>) :
                 val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(product.productUri))
                 binding.root.context.startActivity(browserIntent)
             }
-            if(product.priceMin != null && product.priceMax != null)
-                if(product.priceMin != product.priceMax)
-                    binding.price.text = "${product.priceMin}-${product.priceMax}"
-                else
-                    binding.price.text = product.priceMax
+
+            product.productPrice?.let {
+                if (it.priceMin != null && it.priceMax != null)
+                    if(it.priceMin != it.priceMax)
+                        binding.price.text = "${it.priceMin}-${it.priceMax}${it.currency}"
+                    else
+                        binding.price.text = "${it.priceMax}${it.currency}"
+            }
         }
     }
 
