@@ -3,7 +3,6 @@ package com.example.fakeonliner.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -11,22 +10,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakeonliner.adapters.ProductsAdapter
 import com.example.fakeonliner.databinding.ActivityProductsBinding
 import com.example.fakeonliner.models.Category
-import com.example.fakeonliner.repos.ProductRepo
-import com.example.fakeonliner.service.onlinerApi
-import com.example.fakeonliner.viewModelFactory
 import com.example.fakeonliner.viewModels.ProductsUiState
 import com.example.fakeonliner.viewModels.ProductsViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class ProductsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProductsBinding
-    private val productsViewModel: ProductsViewModel by viewModels {
-        val categoryId = intent.getStringExtra(CATEGORY_ID_KEY) ?: ""
 
-        viewModelFactory {
-            ProductsViewModel(ProductRepo(onlinerApi), categoryId)
-        }
+    private val productsViewModel: ProductsViewModel by viewModel {
+        parametersOf(
+            intent.getStringExtra(
+                CATEGORY_ID_KEY
+            ) ?: ""
+        )
     }
     private val productsAdapter = ProductsAdapter(emptyList())
 

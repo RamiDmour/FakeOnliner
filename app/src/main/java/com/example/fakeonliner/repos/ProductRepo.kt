@@ -1,10 +1,8 @@
 package com.example.fakeonliner.repos
 
-import android.util.Log
 import com.example.fakeonliner.models.ProductPrice
 import com.example.fakeonliner.models.ProductSimplified
 import com.example.fakeonliner.service.api.OnlinerAPI
-import retrofit2.await
 
 class ProductRepo(private val onlinerAPI: OnlinerAPI) {
 
