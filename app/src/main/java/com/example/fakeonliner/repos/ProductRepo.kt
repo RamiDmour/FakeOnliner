@@ -1,10 +1,8 @@
 package com.example.fakeonliner.repos
 
-import android.util.Log
 import com.example.fakeonliner.models.ProductPrice
 import com.example.fakeonliner.models.ProductSimplified
 import com.example.fakeonliner.service.api.OnlinerAPI
-import retrofit2.await
 
 class ProductRepo(private val onlinerAPI: OnlinerAPI) {
 
@@ -12,14 +10,13 @@ class ProductRepo(private val onlinerAPI: OnlinerAPI) {
         val response = onlinerAPI.getProducts(categoryId, 20, 1)
 
         return response.products.map {
-            var priceMax: Float? = null
-            var priceMin: Float? = null
-            var currency: String? = null
 
-            it.prices?.let { prices ->
-                priceMax = prices.price_max.amount.toFloat()
-                priceMin = prices.price_min.amount.toFloat()
-                currency = prices.price_max.currency
+            val productPrice : ProductPrice? = it.prices?.let { prices ->
+                ProductPrice(
+                    prices.price_max.amount,
+                    prices.price_min.amount,
+                    prices.price_max.currency
+                )
             }
 
             ProductSimplified(
@@ -27,11 +24,7 @@ class ProductRepo(private val onlinerAPI: OnlinerAPI) {
                 it.name,
                 it.micro_description,
                 it.html_url,
-                ProductPrice(
-                    priceMin,
-                    priceMax,
-                    currency
-                )
+                productPrice
             )
         }
     }

@@ -12,7 +12,8 @@ import com.squareup.picasso.Picasso
 class ProductsAdapter(private var products: List<ProductSimplified>) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
-    inner class ViewHolder(private val binding: ProductsListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ProductsListItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(product: ProductSimplified) {
             binding.productTitle.text = product.title
             binding.productDescription.text = product.description
@@ -23,11 +24,11 @@ class ProductsAdapter(private var products: List<ProductSimplified>) :
             }
 
             product.productPrice?.let {
-                if (it.priceMin != null && it.priceMax != null)
-                    if(it.priceMin != it.priceMax)
-                        binding.price.text = "${it.priceMin}-${it.priceMax}${it.currency}"
-                    else
-                        binding.price.text = "${it.priceMax}${it.currency}"
+                binding.price.text = if (it.priceMin != it.priceMax) {
+                    "${it.priceMin}-${it.priceMax}${it.currency}"
+                } else {
+                    "${it.priceMax}${it.currency}"
+                }
             }
         }
     }

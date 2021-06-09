@@ -66,7 +66,7 @@ data class GetProductsResponse(
             )
 
             data class PriceMax(
-                val amount: String,
+                val amount: Float,
                 val converted: Converted,
                 val currency: String
             ) {
@@ -87,7 +87,7 @@ data class GetProductsResponse(
             }
 
             data class PriceMin(
-                val amount: String,
+                val amount: Float,
                 val converted: Converted,
                 val currency: String
             ) {
