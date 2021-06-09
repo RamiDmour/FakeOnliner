@@ -24,6 +24,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.swiperefresh.setOnRefreshListener {
+            categoryViewModel.fetchCategories(false)
+        }
+
         binding.categoryList.layoutManager = LinearLayoutManager(this)
         binding.categoryList.adapter = categoryListAdapter
 
@@ -53,5 +57,6 @@ class MainActivity : AppCompatActivity() {
     private fun loadingVisibility(isLoading: Boolean) {
         binding.categoryList.isVisible = !isLoading
         binding.progressBar.isVisible = isLoading
+        binding.swiperefresh.isRefreshing = isLoading
     }
 }

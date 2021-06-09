@@ -18,10 +18,12 @@ class CategoryViewModel(private val categoryRepo: CategoryRepo) : ViewModel() {
         fetchCategories()
     }
 
-    fun fetchCategories() {
+    fun fetchCategories(cache: Boolean = true) {
         viewModelScope.launch {
+            _uiState.value = CategoryUiState.Loading
             _uiState.value = try {
-                CategoryUiState.Success(categoryRepo.getCategories())
+                val categories = categoryRepo.getCategories(cache)
+                CategoryUiState.Success(categories)
             } catch (e: Throwable) {
                 Log.e("DEBUG", e.message ?: "ERROR. CategoryViewModel")
                 CategoryUiState.Error(e)
