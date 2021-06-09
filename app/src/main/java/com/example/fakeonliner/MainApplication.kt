@@ -6,13 +6,13 @@ import com.example.fakeonliner.modules.categoryModule
 import com.example.fakeonliner.modules.productModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.GlobalContext
+import org.koin.core.context.GlobalContext.startKoin
 
 class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        GlobalContext.startKoin {
+        startKoin {
             androidLogger()
             androidContext(
                 this@MainApplication

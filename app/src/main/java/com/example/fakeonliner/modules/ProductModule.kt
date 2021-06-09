@@ -7,5 +7,5 @@ import org.koin.dsl.module
 
 val productModule = module {
     single { ProductRepo(get()) }
-    viewModel { parameters -> ProductsViewModel(get(), parameters.get()) }
+    viewModel { (categoryId: String?) -> ProductsViewModel(get(), categoryId ?: "") }
 }

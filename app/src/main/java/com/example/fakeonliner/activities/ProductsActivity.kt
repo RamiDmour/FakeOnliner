@@ -21,11 +21,7 @@ class ProductsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProductsBinding
 
     private val productsViewModel: ProductsViewModel by viewModel {
-        parametersOf(
-            intent.getStringExtra(
-                CATEGORY_ID_KEY
-            ) ?: ""
-        )
+        parametersOf(intent.getStringExtra(CATEGORY_ID_KEY))
     }
     private val productsAdapter = ProductsAdapter(emptyList())
 
