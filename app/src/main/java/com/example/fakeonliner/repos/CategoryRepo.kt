@@ -5,7 +5,6 @@ import com.example.fakeonliner.room.dao.CategoryDao
 import com.example.fakeonliner.room.entities.CategoryEntity
 import com.example.fakeonliner.service.api.OnlinerAPI
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 class CategoryRepo(
