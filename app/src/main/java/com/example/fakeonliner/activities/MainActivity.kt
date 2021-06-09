@@ -1,4 +1,4 @@
-package com.example.fakeonliner
+package com.example.fakeonliner.activities
 
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -6,13 +6,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fakeonliner.CategoryUiState
+import com.example.fakeonliner.CategoryViewModel
+import com.example.fakeonliner.adapters.CategoryAdapter
 import com.example.fakeonliner.databinding.ActivityMainBinding
+import com.example.fakeonliner.repos.CategoryRepo
+import com.example.fakeonliner.service.onlinerApi
+import com.example.fakeonliner.viewModelFactory
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
 
 class MainActivity : AppCompatActivity() {
     private val categoryViewModel: CategoryViewModel by viewModels {
-        viewModelFactory { CategoryViewModel(CategoryRepo()) }
+        viewModelFactory { CategoryViewModel(CategoryRepo(onlinerApi)) }
     }
     private lateinit var binding: ActivityMainBinding
     private val categoryListAdapter = CategoryAdapter(emptyList())
@@ -32,11 +38,14 @@ class MainActivity : AppCompatActivity() {
                         categoryListAdapter.updateData(it.categories)
                         loadingVisibility(false)
                     }
-                    is CategoryUiState.Error -> Snackbar.make(
-                        binding.root,
-                        it.exception.localizedMessage,
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                    is CategoryUiState.Error -> {
+                        Snackbar.make(
+                            binding.root,
+                            it.exception.localizedMessage,
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                        loadingVisibility(false)
+                    }
                     CategoryUiState.Loading -> {
                         loadingVisibility(true)
                     }

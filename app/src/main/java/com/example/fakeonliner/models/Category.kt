@@ -1,4 +1,4 @@
-package com.example.fakeonliner
+package com.example.fakeonliner.models
 
 data class Category(
     val title: String,

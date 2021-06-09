@@ -1,9 +1,11 @@
-package com.example.fakeonliner
+package com.example.fakeonliner.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fakeonliner.activities.ProductsActivity
 import com.example.fakeonliner.databinding.CategoryListItemBinding
+import com.example.fakeonliner.models.Category
 
 class CategoryAdapter(private var dataSet: List<Category>) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
