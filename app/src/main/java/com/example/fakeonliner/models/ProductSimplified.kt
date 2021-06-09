@@ -9,8 +9,7 @@ data class ProductSimplified(
 )
 
 data class ProductPrice(
-    val priceMin: Float?,
-    val priceMax: Float?,
-    val currency: String?
-
+    val priceMin: Float,
+    val priceMax: Float,
+    val currency: String
 )
