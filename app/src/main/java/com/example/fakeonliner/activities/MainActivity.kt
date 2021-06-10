@@ -1,30 +1,26 @@
 package com.example.fakeonliner.activities
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.fakeonliner.CategoryUiState
-import com.example.fakeonliner.CategoryViewModel
 import com.example.fakeonliner.adapters.CategoryAdapter
 import com.example.fakeonliner.databinding.ActivityMainBinding
-import com.example.fakeonliner.repos.CategoryRepo
-import com.example.fakeonliner.service.onlinerApi
-import com.example.fakeonliner.viewModelFactory
+import com.example.fakeonliner.viewModels.CategoryUiState
+import com.example.fakeonliner.viewModels.CategoryViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collect
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
-    private val categoryViewModel: CategoryViewModel by viewModels {
-        viewModelFactory { CategoryViewModel(CategoryRepo(onlinerApi)) }
-    }
+    private val categoryViewModel: CategoryViewModel by viewModel()
     private lateinit var binding: ActivityMainBinding
     private val categoryListAdapter = CategoryAdapter(emptyList())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

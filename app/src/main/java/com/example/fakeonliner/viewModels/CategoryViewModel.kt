@@ -1,4 +1,4 @@
-package com.example.fakeonliner
+package com.example.fakeonliner.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
