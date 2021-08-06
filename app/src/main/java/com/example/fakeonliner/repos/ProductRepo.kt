@@ -13,8 +13,8 @@ class ProductRepo(private val onlinerAPI: OnlinerAPI) {
             var productPrice: ProductPrice? = null
             it.prices?.let { prices ->
                 productPrice = ProductPrice(
-                    prices.price_min.amount.toFloat(),
-                    prices.price_max.amount.toFloat(),
+                    prices.price_min.amount,
+                    prices.price_max.amount,
                     prices.price_max.currency
                 )
             }

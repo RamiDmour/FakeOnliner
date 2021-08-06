@@ -9,14 +9,14 @@ import com.example.fakeonliner.room.entities.CategoryEntity
 @Dao
 interface CategoryDao {
     @Query("SELECT * FROM category")
-    fun getAll(): List<CategoryEntity>
+    suspend fun getAll(): List<CategoryEntity>
 
     @Insert()
-    fun insertAll(categories: List<CategoryEntity>)
+    suspend fun insertAll(categories: List<CategoryEntity>)
 
     @Delete
-    fun delete(category: CategoryEntity)
+    suspend fun delete(category: CategoryEntity)
 
     @Query("DELETE FROM category")
-    fun clearTable()
+    suspend fun clearTable()
 }

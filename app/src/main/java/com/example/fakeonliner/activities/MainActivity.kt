@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakeonliner.adapters.CategoryAdapter
+import com.example.fakeonliner.components.LoadingDialog
 import com.example.fakeonliner.databinding.ActivityMainBinding
 import com.example.fakeonliner.viewModels.CategoryUiState
 import com.example.fakeonliner.viewModels.CategoryViewModel
@@ -16,10 +17,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : AppCompatActivity() {
     private val categoryViewModel: CategoryViewModel by viewModel()
     private lateinit var binding: ActivityMainBinding
+    private lateinit var loadingDialog: LoadingDialog
     private val categoryListAdapter = CategoryAdapter(emptyList())
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        loadingDialog = LoadingDialog(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -56,7 +61,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadingVisibility(isLoading: Boolean) {
         binding.categoryList.isVisible = !isLoading
-        binding.progressBar.isVisible = isLoading
-        binding.swiperefresh.isRefreshing = isLoading
+        if (isLoading)
+            loadingDialog.startLoadingDialog()
+        else
+            loadingDialog.dismissDialog()
+        binding.swiperefresh.isRefreshing = false
     }
 }

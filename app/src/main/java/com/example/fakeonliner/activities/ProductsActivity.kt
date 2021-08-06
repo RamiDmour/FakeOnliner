@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakeonliner.adapters.ProductsAdapter
+import com.example.fakeonliner.components.LoadingDialog
 import com.example.fakeonliner.databinding.ActivityProductsBinding
 import com.example.fakeonliner.models.Category
 import com.example.fakeonliner.viewModels.ProductsUiState
@@ -19,7 +20,7 @@ import org.koin.core.parameter.parametersOf
 
 class ProductsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProductsBinding
-
+    private lateinit var loadingDialog: LoadingDialog
     private val productsViewModel: ProductsViewModel by viewModel {
         parametersOf(intent.getStringExtra(CATEGORY_ID_KEY))
     }
@@ -27,6 +28,8 @@ class ProductsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        loadingDialog = LoadingDialog(this)
 
         binding = ActivityProductsBinding.inflate(layoutInflater)
 
@@ -69,6 +72,9 @@ class ProductsActivity : AppCompatActivity() {
 
     private fun loadingVisibility(isLoading: Boolean) {
         binding.productsList.isVisible = !isLoading
-        binding.progressBar.isVisible = isLoading
+        if (isLoading)
+            loadingDialog.startLoadingDialog()
+        else
+            loadingDialog.dismissDialog()
     }
 }
