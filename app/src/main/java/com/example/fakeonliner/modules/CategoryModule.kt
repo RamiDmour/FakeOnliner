@@ -1,6 +1,5 @@
 package com.example.fakeonliner.modules
 
-import android.app.Application
 import androidx.room.Room
 import com.example.fakeonliner.repos.CategoryRepo
 import com.example.fakeonliner.room.CategoryDatabase
@@ -10,13 +9,6 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val categoryModule = module {
-    fun buildDatabaseInstance(application: Application) =
-        Room.databaseBuilder(
-            application,
-            CategoryDatabase::class.java,
-            "category_database"
-        ).build()
-
     single {
         Room.databaseBuilder(
             androidApplication(),

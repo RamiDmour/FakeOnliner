@@ -2,9 +2,7 @@ package com.example.fakeonliner.repos
 
 import com.example.fakeonliner.models.Category
 import com.example.fakeonliner.room.dao.CategoryDao
-import com.example.fakeonliner.room.dao.getAllConverted
 import com.example.fakeonliner.service.api.OnlinerAPI
-import com.example.fakeonliner.service.api.getConvertedCategories
 
 class CategoryRepo(
     private val onlinerApi: OnlinerAPI,
@@ -12,7 +10,7 @@ class CategoryRepo(
 ) {
     suspend fun getCategories(cache: Boolean = true): List<Category> {
         return if(cache) {
-            val cachedCategories = categoryDao.getAllConverted()
+            val cachedCategories = categoryDao.getAll().map { it.toDomain() }
             if (cachedCategories.isNotEmpty()) {
                 cachedCategories
             } else {
@@ -23,9 +21,9 @@ class CategoryRepo(
         }
     }
 
-    suspend fun refreshCategories(): List<Category> {
+    private suspend fun refreshCategories(): List<Category> {
         categoryDao.clearTable()
-        categoryDao.insertAll(onlinerApi.getConvertedCategories(100, 1))
-        return categoryDao.getAllConverted()
+        categoryDao.insertAll(onlinerApi.getCategories(100, 1).toEntity())
+        return categoryDao.getAll().map { it.toDomain() }
     }
 }
