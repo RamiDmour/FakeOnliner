@@ -10,11 +10,10 @@ class ProductRepo(private val onlinerAPI: OnlinerAPI) {
         val response = onlinerAPI.getProducts(categoryId, 20, 1)
 
         return response.products.map {
-
-            val productPrice : ProductPrice? = it.prices?.let { prices ->
+            val productPrice: ProductPrice? = it.prices?.let { prices ->
                 ProductPrice(
-                    prices.price_max.amount,
                     prices.price_min.amount,
+                    prices.price_max.amount,
                     prices.price_max.currency
                 )
             }

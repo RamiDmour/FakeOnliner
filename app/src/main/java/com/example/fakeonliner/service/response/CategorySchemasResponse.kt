@@ -1,8 +1,12 @@
 package com.example.fakeonliner.api
 
+import com.example.fakeonliner.room.entities.CategoryEntity
+
 data class SchemasResponse(
     val schemas: List<CategoryResponse>
-)
+) {
+    fun toEntity(): List<CategoryEntity> = schemas.map { CategoryEntity(it.key, it.name) }
+}
 
 data class CategoryResponse(
     val facets_url: String,

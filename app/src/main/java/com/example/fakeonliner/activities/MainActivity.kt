@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakeonliner.adapters.CategoryAdapter
+import com.example.fakeonliner.components.LoadingDialog
 import com.example.fakeonliner.databinding.ActivityMainBinding
 import com.example.fakeonliner.viewModels.CategoryUiState
 import com.example.fakeonliner.viewModels.CategoryViewModel
@@ -24,15 +25,21 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.swiperefresh.setOnRefreshListener {
+            categoryViewModel.fetchCategories(false)
+        }
+
         binding.categoryList.layoutManager = LinearLayoutManager(this)
         binding.categoryList.adapter = categoryListAdapter
+
+        val loadingDialog = LoadingDialog(this)
 
         lifecycleScope.launchWhenStarted {
             categoryViewModel.uiState.collect {
                 when (it) {
                     is CategoryUiState.Success -> {
                         categoryListAdapter.updateData(it.categories)
-                        loadingVisibility(false)
+                        loadingVisibility(false, loadingDialog)
                     }
                     is CategoryUiState.Error -> {
                         Snackbar.make(
@@ -40,18 +47,23 @@ class MainActivity : AppCompatActivity() {
                             it.exception.localizedMessage,
                             Snackbar.LENGTH_LONG
                         ).show()
-                        loadingVisibility(false)
+                        loadingVisibility(false, loadingDialog)
                     }
                     CategoryUiState.Loading -> {
-                        loadingVisibility(true)
+                        loadingVisibility(true, loadingDialog)
                     }
                 }
             }
         }
     }
 
-    private fun loadingVisibility(isLoading: Boolean) {
+    private fun loadingVisibility(isLoading: Boolean, loadingDialog: LoadingDialog) {
         binding.categoryList.isVisible = !isLoading
-        binding.progressBar.isVisible = isLoading
+        if (isLoading) {
+            loadingDialog.startLoadingDialog()
+        } else {
+            loadingDialog.dismissDialog()
+        }
+        binding.swiperefresh.isRefreshing = false
     }
 }

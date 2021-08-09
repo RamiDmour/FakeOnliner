@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakeonliner.adapters.ProductsAdapter
+import com.example.fakeonliner.components.LoadingDialog
 import com.example.fakeonliner.databinding.ActivityProductsBinding
 import com.example.fakeonliner.models.Category
 import com.example.fakeonliner.viewModels.ProductsUiState
@@ -19,7 +20,6 @@ import org.koin.core.parameter.parametersOf
 
 class ProductsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProductsBinding
-
     private val productsViewModel: ProductsViewModel by viewModel {
         parametersOf(intent.getStringExtra(CATEGORY_ID_KEY))
     }
@@ -35,6 +35,8 @@ class ProductsActivity : AppCompatActivity() {
         binding.productsList.layoutManager = LinearLayoutManager(this)
         binding.productsList.adapter = productsAdapter
 
+        val loadingDialog = LoadingDialog(this)
+
         lifecycleScope.launchWhenStarted {
             productsViewModel.uiState.collect {
                 when (it) {
@@ -44,12 +46,12 @@ class ProductsActivity : AppCompatActivity() {
                             it.exception.localizedMessage,
                             Snackbar.LENGTH_LONG
                         ).show()
-                        loadingVisibility(false)
+                        loadingVisibility(false, loadingDialog)
                     }
-                    ProductsUiState.Loading -> loadingVisibility(true)
+                    ProductsUiState.Loading -> loadingVisibility(true, loadingDialog)
                     is ProductsUiState.Success -> {
                         productsAdapter.updateData(it.products)
-                        loadingVisibility(false)
+                        loadingVisibility(false, loadingDialog)
 
                     }
                 }
@@ -67,8 +69,12 @@ class ProductsActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadingVisibility(isLoading: Boolean) {
+    private fun loadingVisibility(isLoading: Boolean, loadingDialog: LoadingDialog) {
         binding.productsList.isVisible = !isLoading
-        binding.progressBar.isVisible = isLoading
+        if (isLoading) {
+            loadingDialog.startLoadingDialog()
+        } else {
+            loadingDialog.dismissDialog()
+        }
     }
 }
