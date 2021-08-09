@@ -17,8 +17,14 @@ val categoryModule = module {
             "category_database"
         ).build()
 
-    single { buildDatabaseInstance(androidApplication()) }
+    single {
+        Room.databaseBuilder(
+            androidApplication(),
+            CategoryDatabase::class.java,
+            "category_database"
+        ).build()
+    }
     single { get<CategoryDatabase>().categoryDao() }
-    single { CategoryRepo(get(), get()) }
+    single { CategoryRepo(onlinerApi = get(), categoryDao = get()) }
     viewModel { CategoryViewModel(get()) }
 }

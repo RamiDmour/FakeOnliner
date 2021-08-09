@@ -17,14 +17,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : AppCompatActivity() {
     private val categoryViewModel: CategoryViewModel by viewModel()
     private lateinit var binding: ActivityMainBinding
-    private lateinit var loadingDialog: LoadingDialog
     private val categoryListAdapter = CategoryAdapter(emptyList())
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        loadingDialog = LoadingDialog(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -36,12 +32,14 @@ class MainActivity : AppCompatActivity() {
         binding.categoryList.layoutManager = LinearLayoutManager(this)
         binding.categoryList.adapter = categoryListAdapter
 
+        val loadingDialog = LoadingDialog(this)
+
         lifecycleScope.launchWhenStarted {
             categoryViewModel.uiState.collect {
                 when (it) {
                     is CategoryUiState.Success -> {
                         categoryListAdapter.updateData(it.categories)
-                        loadingVisibility(false)
+                        loadingVisibility(false, loadingDialog)
                     }
                     is CategoryUiState.Error -> {
                         Snackbar.make(
@@ -49,22 +47,23 @@ class MainActivity : AppCompatActivity() {
                             it.exception.localizedMessage,
                             Snackbar.LENGTH_LONG
                         ).show()
-                        loadingVisibility(false)
+                        loadingVisibility(false, loadingDialog)
                     }
                     CategoryUiState.Loading -> {
-                        loadingVisibility(true)
+                        loadingVisibility(true, loadingDialog)
                     }
                 }
             }
         }
     }
 
-    private fun loadingVisibility(isLoading: Boolean) {
+    private fun loadingVisibility(isLoading: Boolean, loadingDialog: LoadingDialog) {
         binding.categoryList.isVisible = !isLoading
-        if (isLoading)
+        if (isLoading) {
             loadingDialog.startLoadingDialog()
-        else
+        } else {
             loadingDialog.dismissDialog()
+        }
         binding.swiperefresh.isRefreshing = false
     }
 }

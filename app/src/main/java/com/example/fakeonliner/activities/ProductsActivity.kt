@@ -20,7 +20,6 @@ import org.koin.core.parameter.parametersOf
 
 class ProductsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProductsBinding
-    private lateinit var loadingDialog: LoadingDialog
     private val productsViewModel: ProductsViewModel by viewModel {
         parametersOf(intent.getStringExtra(CATEGORY_ID_KEY))
     }
@@ -29,14 +28,14 @@ class ProductsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        loadingDialog = LoadingDialog(this)
-
         binding = ActivityProductsBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
         binding.productsList.layoutManager = LinearLayoutManager(this)
         binding.productsList.adapter = productsAdapter
+
+        val loadingDialog = LoadingDialog(this)
 
         lifecycleScope.launchWhenStarted {
             productsViewModel.uiState.collect {
@@ -47,12 +46,12 @@ class ProductsActivity : AppCompatActivity() {
                             it.exception.localizedMessage,
                             Snackbar.LENGTH_LONG
                         ).show()
-                        loadingVisibility(false)
+                        loadingVisibility(false, loadingDialog)
                     }
-                    ProductsUiState.Loading -> loadingVisibility(true)
+                    ProductsUiState.Loading -> loadingVisibility(true, loadingDialog)
                     is ProductsUiState.Success -> {
                         productsAdapter.updateData(it.products)
-                        loadingVisibility(false)
+                        loadingVisibility(false, loadingDialog)
 
                     }
                 }
@@ -70,11 +69,12 @@ class ProductsActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadingVisibility(isLoading: Boolean) {
+    private fun loadingVisibility(isLoading: Boolean, loadingDialog: LoadingDialog) {
         binding.productsList.isVisible = !isLoading
-        if (isLoading)
+        if (isLoading) {
             loadingDialog.startLoadingDialog()
-        else
+        } else {
             loadingDialog.dismissDialog()
+        }
     }
 }
