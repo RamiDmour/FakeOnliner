@@ -1,9 +1,7 @@
 package com.example.fakeonliner.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -16,11 +14,12 @@ import com.example.fakeonliner.databinding.CategoryFragmentBinding
 import com.example.fakeonliner.viewModels.CategoryUiState
 import com.example.fakeonliner.viewModels.CategoryViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CategoryFragment : Fragment() {
-    private lateinit var binding: CategoryFragmentBinding
+class CategoryFragment : Fragment(R.layout.category_fragment) {
+    private val binding by viewBinding(CategoryFragmentBinding::bind)
     private val categoryViewModel: CategoryViewModel by viewModel()
     private val categoryListAdapter = CategoryAdapter(emptyList()) { category ->
         parentFragmentManager.commit {
@@ -32,15 +31,6 @@ class CategoryFragment : Fragment() {
 
     companion object {
         fun newInstance() = CategoryFragment()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = CategoryFragmentBinding.inflate(inflater, container, false)
-
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
