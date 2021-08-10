@@ -1,7 +1,5 @@
 package com.example.fakeonliner.adapters
 
-import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +7,7 @@ import com.example.fakeonliner.databinding.ProductsListItemBinding
 import com.example.fakeonliner.models.ProductSimplified
 import com.squareup.picasso.Picasso
 
-class ProductsAdapter(private var products: List<ProductSimplified>) :
+class ProductsAdapter(private var products: List<ProductSimplified>, private val onProductSelect: (product: ProductSimplified) -> Unit) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ProductsListItemBinding) :
@@ -19,8 +17,7 @@ class ProductsAdapter(private var products: List<ProductSimplified>) :
             binding.productDescription.text = product.description
             Picasso.get().load(product.imageUrl).into(binding.productImage)
             binding.root.setOnClickListener {
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(product.productUri))
-                binding.root.context.startActivity(browserIntent)
+                onProductSelect(product)
             }
 
             product.productPrice?.let {

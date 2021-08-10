@@ -3,11 +3,10 @@ package com.example.fakeonliner.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.fakeonliner.activities.ProductsActivity
 import com.example.fakeonliner.databinding.CategoryListItemBinding
 import com.example.fakeonliner.models.Category
 
-class CategoryAdapter(private var dataSet: List<Category>) :
+class CategoryAdapter(private var dataSet: List<Category>, private val onCategorySelect: (category: Category) -> Unit) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: CategoryListItemBinding) :
@@ -15,9 +14,7 @@ class CategoryAdapter(private var dataSet: List<Category>) :
             fun bind(category: Category) {
                 binding.categoryTitle.text = category.title
                 binding.categoryTitle.setOnClickListener {
-                    val context = binding.root.context
-                    val intent = ProductsActivity.createIntent(context, category)
-                    context.startActivity(intent)
+                    onCategorySelect(category)
                 }
             }
         }
