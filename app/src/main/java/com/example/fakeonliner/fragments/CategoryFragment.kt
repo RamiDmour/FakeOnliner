@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakeonliner.R
@@ -26,7 +25,7 @@ class CategoryFragment : Fragment() {
     private val categoryListAdapter = CategoryAdapter(emptyList()) { category ->
         parentFragmentManager.commit {
             setReorderingAllowed(true)
-            replace<ProductsFragment>(R.id.root_container, args = ProductsFragment.createBundle(category))
+            replace(R.id.root_container, ProductsFragment.newInstance(category))
             addToBackStack(null)
         }
     }
@@ -51,10 +50,10 @@ class CategoryFragment : Fragment() {
             categoryViewModel.fetchCategories(false)
         }
 
-        binding.categoryList.layoutManager = LinearLayoutManager(this.requireContext())
+        binding.categoryList.layoutManager = LinearLayoutManager(requireContext())
         binding.categoryList.adapter = categoryListAdapter
 
-        val loadingDialog = LoadingDialog(this.requireContext())
+        val loadingDialog = LoadingDialog(requireContext())
 
         lifecycleScope.launchWhenStarted {
             categoryViewModel.uiState.collect {

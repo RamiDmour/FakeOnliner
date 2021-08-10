@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -22,9 +21,9 @@ import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class ProductsFragment : Fragment() {
+class ProductsFragment(private val category: Category) : Fragment() {
     private val productsViewModel: ProductsViewModel by viewModel {
-        parametersOf(requireArguments().getString(CATEGORY_ID_KEY))
+        parametersOf(category.categoryId)
     }
     private val productsAdapter = ProductsAdapter(emptyList()) {product ->
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(product.productUri))
@@ -33,10 +32,7 @@ class ProductsFragment : Fragment() {
     private lateinit var binding: ProductsFragmentBinding
 
     companion object {
-        fun newInstance() = ProductsFragment()
-        private const val CATEGORY_ID_KEY = "CATEGORY_ID_KEY"
-
-        fun createBundle(category: Category): Bundle = bundleOf(CATEGORY_ID_KEY to category.categoryId)
+        fun newInstance(category: Category): ProductsFragment = ProductsFragment(category)
     }
 
     override fun onCreateView(
@@ -50,10 +46,10 @@ class ProductsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.productsList.layoutManager = LinearLayoutManager(this.requireContext())
+        binding.productsList.layoutManager = LinearLayoutManager(requireContext())
         binding.productsList.adapter = productsAdapter
 
-        val loadingDialog = LoadingDialog(this.requireContext())
+        val loadingDialog = LoadingDialog(requireContext())
 
         lifecycleScope.launchWhenStarted {
             productsViewModel.uiState.collect {

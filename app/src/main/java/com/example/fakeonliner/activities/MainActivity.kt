@@ -2,7 +2,6 @@ package com.example.fakeonliner.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import com.example.fakeonliner.R
 import com.example.fakeonliner.fragments.CategoryFragment
@@ -15,7 +14,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                add<CategoryFragment>(R.id.root_container)
+                add(R.id.root_container, CategoryFragment.newInstance())
             }
         }
     }
