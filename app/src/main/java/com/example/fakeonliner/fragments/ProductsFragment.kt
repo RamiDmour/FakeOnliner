@@ -1,15 +1,19 @@
-package com.example.fakeonliner.activities
+package com.example.fakeonliner.fragments
 
-import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakeonliner.adapters.ProductsAdapter
 import com.example.fakeonliner.components.LoadingDialog
-import com.example.fakeonliner.databinding.ActivityProductsBinding
+import com.example.fakeonliner.databinding.ProductsFragmentBinding
 import com.example.fakeonliner.models.Category
 import com.example.fakeonliner.viewModels.ProductsUiState
 import com.example.fakeonliner.viewModels.ProductsViewModel
@@ -18,24 +22,38 @@ import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class ProductsActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityProductsBinding
+class ProductsFragment : Fragment() {
     private val productsViewModel: ProductsViewModel by viewModel {
-        parametersOf(intent.getStringExtra(CATEGORY_ID_KEY))
+        parametersOf(requireArguments().getString(CATEGORY_ID_KEY))
     }
-    private val productsAdapter = ProductsAdapter(emptyList())
+    private val productsAdapter = ProductsAdapter(emptyList()) {product ->
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(product.productUri))
+        requireContext().startActivity(browserIntent)
+    }
+    private lateinit var binding: ProductsFragmentBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    companion object {
+        fun newInstance() = ProductsFragment()
+        private const val CATEGORY_ID_KEY = "CATEGORY_ID_KEY"
 
-        binding = ActivityProductsBinding.inflate(layoutInflater)
+        fun createBundle(category: Category): Bundle = bundleOf(CATEGORY_ID_KEY to category.categoryId)
+    }
 
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = ProductsFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        binding.productsList.layoutManager = LinearLayoutManager(this)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.productsList.layoutManager = LinearLayoutManager(this.requireContext())
         binding.productsList.adapter = productsAdapter
 
-        val loadingDialog = LoadingDialog(this)
+        val loadingDialog = LoadingDialog(this.requireContext())
 
         lifecycleScope.launchWhenStarted {
             productsViewModel.uiState.collect {
@@ -55,16 +73,6 @@ class ProductsActivity : AppCompatActivity() {
 
                     }
                 }
-            }
-        }
-    }
-
-    companion object {
-        private const val CATEGORY_ID_KEY = "CATEGORY_ID_KEY"
-
-        fun createIntent(context: Context, category: Category): Intent {
-            return Intent(context, ProductsActivity::class.java).apply {
-                putExtra(CATEGORY_ID_KEY, category.categoryId)
             }
         }
     }
