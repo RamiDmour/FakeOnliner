@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,7 +69,6 @@ class ProductsFragment : Fragment(R.layout.products_fragment) {
     }
 
     private fun loadingVisibility(isLoading: Boolean, loadingDialog: LoadingDialog) {
-        binding.productsList.isVisible = !isLoading
         if (isLoading) {
             loadingDialog.startLoadingDialog()
         } else {
