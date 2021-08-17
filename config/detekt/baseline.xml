@@ -1,0 +1,93 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ConstructorParameterNaming:CategorySchemasResponse.kt$CategoryResponse$val facets_url: String</ID>
+    <ID>ConstructorParameterNaming:CategorySchemasResponse.kt$CategoryResponse$val group_products: Boolean</ID>
+    <ID>ConstructorParameterNaming:CategorySchemasResponse.kt$CategoryResponse$val is_delivery_available: Boolean</ID>
+    <ID>ConstructorParameterNaming:CategorySchemasResponse.kt$CategoryResponse$val is_second_offer_available: Boolean</ID>
+    <ID>ConstructorParameterNaming:CategorySchemasResponse.kt$CategoryResponse$val products_url: String</ID>
+    <ID>ConstructorParameterNaming:CategorySchemasResponse.kt$CategoryResponse$val second_offers_url: String</ID>
+    <ID>ConstructorParameterNaming:CategorySchemasResponse.kt$CategoryResponse$val without_icons: Boolean</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse$val total_ungrouped: Int</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product$val color_code: Any?</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product$val extended_name: String</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product$val full_name: String</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product$val html_url: String</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product$val image_size: List&lt;Any&gt;</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product$val max_cobrand_cashback: Any?</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product$val max_installment_terms: Any?</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product$val micro_description: String</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product$val name_prefix: String</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product$val review_url: Any?</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Forum$val post_url: String</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Forum$val replies_count: Any?</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Forum$val topic_id: Any?</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Forum$val topic_url: Any?</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Prices$val currency_sign: Any?</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Prices$val html_url: String</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Prices$val price_max: PriceMax</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Prices$val price_min: PriceMin</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Prices.PriceMax.Converted$val BYN: BYNValue</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Prices.PriceMax.Converted$val BYR: BYRValue</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Prices.PriceMin.Converted$val BYN: BYNValue</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Prices.PriceMin.Converted$val BYR: BYRValue</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Reviews$val html_url: String</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Sale$val is_on_sale: Boolean</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Sale$val min_prices_median: MinPricesMedian</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Second$val min_price: Any?</ID>
+    <ID>ConstructorParameterNaming:GetProductsResponse.kt$GetProductsResponse.Product.Second$val offers_count: Int</ID>
+    <ID>FinalNewline:com.example.fakeonliner.ExampleInstrumentedTest.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.ExampleUnitTest.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.MainApplication.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.activities.MainActivity.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.adapters.CategoryAdapter.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.adapters.ProductsAdapter.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.api.CategorySchemasResponse.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.components.LoadingDialog.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.fragments.CategoryFragment.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.fragments.ProductsFragment.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.models.Category.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.models.ProductSimplified.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.modules.AppModule.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.modules.ProductModule.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.repos.ProductRepo.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.room.CategoryDatabase.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.room.entities.CategoryEntity.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.service.response.GetProductsResponse.kt:1</ID>
+    <ID>FinalNewline:com.example.fakeonliner.viewModels.CategoryViewModel.kt:1</ID>
+    <ID>MagicNumber:CategoryRepo.kt$CategoryRepo$100</ID>
+    <ID>MagicNumber:ProductRepo.kt$ProductRepo$20</ID>
+    <ID>MaxLineLength:ProductsAdapter.kt$ProductsAdapter$class</ID>
+    <ID>MaximumLineLength:com.example.fakeonliner.adapters.ProductsAdapter.kt:10</ID>
+    <ID>NewLineAtEndOfFile:AppModule.kt$com.example.fakeonliner.modules.AppModule.kt</ID>
+    <ID>NewLineAtEndOfFile:Category.kt$com.example.fakeonliner.models.Category.kt</ID>
+    <ID>NewLineAtEndOfFile:CategoryAdapter.kt$com.example.fakeonliner.adapters.CategoryAdapter.kt</ID>
+    <ID>NewLineAtEndOfFile:CategoryDatabase.kt$com.example.fakeonliner.room.CategoryDatabase.kt</ID>
+    <ID>NewLineAtEndOfFile:CategoryEntity.kt$com.example.fakeonliner.room.entities.CategoryEntity.kt</ID>
+    <ID>NewLineAtEndOfFile:CategoryFragment.kt$com.example.fakeonliner.fragments.CategoryFragment.kt</ID>
+    <ID>NewLineAtEndOfFile:CategorySchemasResponse.kt$com.example.fakeonliner.api.CategorySchemasResponse.kt</ID>
+    <ID>NewLineAtEndOfFile:CategoryViewModel.kt$com.example.fakeonliner.viewModels.CategoryViewModel.kt</ID>
+    <ID>NewLineAtEndOfFile:ExampleInstrumentedTest.kt$com.example.fakeonliner.ExampleInstrumentedTest.kt</ID>
+    <ID>NewLineAtEndOfFile:ExampleUnitTest.kt$com.example.fakeonliner.ExampleUnitTest.kt</ID>
+    <ID>NewLineAtEndOfFile:GetProductsResponse.kt$com.example.fakeonliner.service.response.GetProductsResponse.kt</ID>
+    <ID>NewLineAtEndOfFile:LoadingDialog.kt$com.example.fakeonliner.components.LoadingDialog.kt</ID>
+    <ID>NewLineAtEndOfFile:MainActivity.kt$com.example.fakeonliner.activities.MainActivity.kt</ID>
+    <ID>NewLineAtEndOfFile:MainApplication.kt$com.example.fakeonliner.MainApplication.kt</ID>
+    <ID>NewLineAtEndOfFile:ProductModule.kt$com.example.fakeonliner.modules.ProductModule.kt</ID>
+    <ID>NewLineAtEndOfFile:ProductRepo.kt$com.example.fakeonliner.repos.ProductRepo.kt</ID>
+    <ID>NewLineAtEndOfFile:ProductSimplified.kt$com.example.fakeonliner.models.ProductSimplified.kt</ID>
+    <ID>NewLineAtEndOfFile:ProductsAdapter.kt$com.example.fakeonliner.adapters.ProductsAdapter.kt</ID>
+    <ID>NewLineAtEndOfFile:ProductsFragment.kt$com.example.fakeonliner.fragments.ProductsFragment.kt</ID>
+    <ID>NoBlankLineBeforeRbrace:com.example.fakeonliner.MainApplication.kt:23</ID>
+    <ID>NoBlankLineBeforeRbrace:com.example.fakeonliner.fragments.ProductsFragment.kt:64</ID>
+    <ID>NoConsecutiveBlankLines:com.example.fakeonliner.Utils.kt:11</ID>
+    <ID>NoWildcardImports:com.example.fakeonliner.ExampleInstrumentedTest.kt:9</ID>
+    <ID>NoWildcardImports:com.example.fakeonliner.ExampleUnitTest.kt:5</ID>
+    <ID>ParameterListWrapping:com.example.fakeonliner.adapters.ProductsAdapter.kt:10</ID>
+    <ID>SpacingAroundCurly:com.example.fakeonliner.fragments.ProductsFragment.kt:28</ID>
+    <ID>SpacingAroundKeyword:com.example.fakeonliner.repos.CategoryRepo.kt:12</ID>
+    <ID>TooGenericExceptionCaught:CategoryViewModel.kt$CategoryViewModel$e: Throwable</ID>
+    <ID>TooGenericExceptionCaught:ProductsViewModel.kt$ProductsViewModel$e: Throwable</ID>
+  </CurrentIssues>
+</SmellBaseline>
