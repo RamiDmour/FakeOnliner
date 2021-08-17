@@ -25,7 +25,7 @@ class ProductsFragment : Fragment(R.layout.products_fragment) {
     private val productsViewModel: ProductsViewModel by viewModel {
         parametersOf(requireArguments().getString(CATEGORY_ID_KEY))
     }
-    private val productsAdapter = ProductsAdapter(emptyList()) {product ->
+    private val productsAdapter = ProductsAdapter(emptyList()) { product ->
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(product.productUri))
         requireContext().startActivity(browserIntent)
     }
@@ -61,7 +61,6 @@ class ProductsFragment : Fragment(R.layout.products_fragment) {
                     is ProductsUiState.Success -> {
                         productsAdapter.updateData(it.products)
                         loadingVisibility(false, loadingDialog)
-
                     }
                 }
             }

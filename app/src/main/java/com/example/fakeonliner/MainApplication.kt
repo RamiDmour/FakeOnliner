@@ -20,5 +20,4 @@ class MainApplication : Application() {
             modules(appModule, categoryModule, productModule)
         }
     }
-
 }

@@ -9,7 +9,7 @@ class CategoryRepo(
     private val categoryDao: CategoryDao
 ) {
     suspend fun getCategories(cache: Boolean = true): List<Category> {
-        return if(cache) {
+        return if (cache) {
             val cachedCategories = categoryDao.getAll().map { it.toDomain() }
             if (cachedCategories.isNotEmpty()) {
                 cachedCategories

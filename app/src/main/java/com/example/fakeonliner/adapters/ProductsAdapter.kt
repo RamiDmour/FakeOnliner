@@ -7,7 +7,10 @@ import com.example.fakeonliner.databinding.ProductsListItemBinding
 import com.example.fakeonliner.models.ProductSimplified
 import com.squareup.picasso.Picasso
 
-class ProductsAdapter(private var products: List<ProductSimplified>, private val onProductSelect: (product: ProductSimplified) -> Unit) :
+class ProductsAdapter(
+    private var products: List<ProductSimplified>,
+    private val onProductSelect: (product: ProductSimplified) -> Unit
+) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
     inner class ViewHolder(private val binding: ProductsListItemBinding) :
