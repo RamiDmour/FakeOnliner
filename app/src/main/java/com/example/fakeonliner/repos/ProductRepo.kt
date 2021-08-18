@@ -1,5 +1,6 @@
 package com.example.fakeonliner.repos
 
+import com.example.fakeonliner.models.Product
 import com.example.fakeonliner.models.ProductPrice
 import com.example.fakeonliner.models.ProductSimplified
 import com.example.fakeonliner.service.api.OnlinerAPI
@@ -19,6 +20,7 @@ class ProductRepo(private val onlinerAPI: OnlinerAPI) {
             }
 
             ProductSimplified(
+                it.key,
                 "https:" + it.images.header,
                 it.name,
                 it.micro_description,
@@ -26,5 +28,11 @@ class ProductRepo(private val onlinerAPI: OnlinerAPI) {
                 productPrice
             )
         }
+    }
+
+    suspend fun getProduct(productKey: String): Product {
+        val response = onlinerAPI.getProduct(productKey)
+
+        return Product(response.key)
     }
 }

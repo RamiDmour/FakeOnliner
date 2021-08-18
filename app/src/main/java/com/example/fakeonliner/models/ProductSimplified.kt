@@ -1,6 +1,7 @@
 package com.example.fakeonliner.models
 
 data class ProductSimplified(
+    val key: String,
     val imageUrl: String,
     val title: String,
     val description: String,

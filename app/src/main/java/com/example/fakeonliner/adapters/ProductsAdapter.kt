@@ -1,6 +1,7 @@
 package com.example.fakeonliner.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fakeonliner.databinding.ProductsListItemBinding
@@ -9,7 +10,8 @@ import com.squareup.picasso.Picasso
 
 class ProductsAdapter(
     private var products: List<ProductSimplified>,
-    private val onProductSelect: (product: ProductSimplified) -> Unit
+    private val onProductSelect: (product: ProductSimplified) -> Unit,
+    private val onProductSelectLong: (product: ProductSimplified) -> Unit
 ) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
@@ -22,6 +24,10 @@ class ProductsAdapter(
             binding.root.setOnClickListener {
                 onProductSelect(product)
             }
+            binding.root.setOnLongClickListener(View.OnLongClickListener {
+                onProductSelectLong(product)
+                return@OnLongClickListener true
+            })
 
             product.productPrice?.let {
                 binding.price.text = if (it.priceMin != it.priceMax) {

@@ -1,6 +1,7 @@
 package com.example.fakeonliner.service.api
 
 import com.example.fakeonliner.api.SchemasResponse
+import com.example.fakeonliner.service.response.GetProductResponse
 import com.example.fakeonliner.service.response.GetProductsResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -19,4 +20,9 @@ interface OnlinerAPI {
         @Query("limit") limit: Int,
         @Query("page") page: Int
     ): GetProductsResponse
+
+    @GET("/products/{key}")
+    suspend fun getProduct(
+        @Path("key") key: String
+    ): GetProductResponse
 }

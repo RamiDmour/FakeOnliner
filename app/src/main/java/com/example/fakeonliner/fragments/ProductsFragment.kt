@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakeonliner.R
@@ -25,10 +26,17 @@ class ProductsFragment : Fragment(R.layout.products_fragment) {
     private val productsViewModel: ProductsViewModel by viewModel {
         parametersOf(requireArguments().getString(CATEGORY_ID_KEY))
     }
-    private val productsAdapter = ProductsAdapter(emptyList()) { product ->
+    private val productsAdapter = ProductsAdapter(emptyList(), { product ->
+        parentFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace(R.id.root_container, ProductFragment.newInstance(product))
+            addToBackStack(null)
+        }
+    }, { product ->
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(product.productUri))
         requireContext().startActivity(browserIntent)
-    }
+    })
+
     private val binding by viewBinding(ProductsFragmentBinding::bind)
 
     companion object {
