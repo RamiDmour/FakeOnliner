@@ -13,6 +13,7 @@ import com.example.fakeonliner.adapters.ProductsAdapter
 import com.example.fakeonliner.components.LoadingDialog
 import com.example.fakeonliner.databinding.ProductsFragmentBinding
 import com.example.fakeonliner.models.Category
+import com.example.fakeonliner.viewModels.ProductsEvent
 import com.example.fakeonliner.viewModels.ProductsUiState
 import com.example.fakeonliner.viewModels.ProductsViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -61,8 +62,16 @@ class ProductsFragment : Fragment(R.layout.products_fragment) {
                         productsAdapter.updateData(it.products)
                         loadingVisibility(false, loadingDialog)
                     }
-                    is ProductsUiState.ProductSelected -> {
-                        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it.product.productUri))
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            productsViewModel.eventFlow.collect {
+                when (it) {
+                    is ProductsEvent.ProductSelected -> {
+                        val browserIntent =
+                            Intent(Intent.ACTION_VIEW, Uri.parse(it.product.productUri))
                         requireContext().startActivity(browserIntent)
                     }
                 }

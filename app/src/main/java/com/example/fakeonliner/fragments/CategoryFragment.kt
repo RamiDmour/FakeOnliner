@@ -11,6 +11,7 @@ import com.example.fakeonliner.R
 import com.example.fakeonliner.adapters.CategoryAdapter
 import com.example.fakeonliner.components.LoadingDialog
 import com.example.fakeonliner.databinding.CategoryFragmentBinding
+import com.example.fakeonliner.viewModels.CategoryEvent
 import com.example.fakeonliner.viewModels.CategoryUiState
 import com.example.fakeonliner.viewModels.CategoryViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -59,7 +60,13 @@ class CategoryFragment : Fragment(R.layout.category_fragment) {
                     CategoryUiState.Loading -> {
                         loadingVisibility(true, loadingDialog)
                     }
-                    is CategoryUiState.CategorySelected -> {
+                }
+            }
+        }
+        lifecycleScope.launchWhenStarted {
+            categoryViewModel.eventFlow.collect {
+                when(it) {
+                    is CategoryEvent.CategorySelected -> {
                         parentFragmentManager.commit {
                             setReorderingAllowed(true)
                             replace(R.id.root_container, ProductsFragment.newInstance(it.category))
