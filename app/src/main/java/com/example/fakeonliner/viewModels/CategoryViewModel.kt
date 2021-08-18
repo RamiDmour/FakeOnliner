@@ -30,10 +30,17 @@ class CategoryViewModel(private val categoryRepo: CategoryRepo) : ViewModel() {
             }
         }
     }
+
+    fun selectCategory(category: Category) {
+        viewModelScope.launch {
+            _uiState.value = CategoryUiState.CategorySelected(category)
+        }
+    }
 }
 
 sealed class CategoryUiState {
     data class Success(val categories: List<Category>) : CategoryUiState()
     data class Error(val exception: Throwable) : CategoryUiState()
     object Loading : CategoryUiState()
+    data class CategorySelected(val category: Category) : CategoryUiState()
 }

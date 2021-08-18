@@ -21,10 +21,17 @@ class ProductsViewModel(repo: ProductRepo, categoryId: String) : ViewModel() {
             }
         }
     }
+
+    fun selectProduct(product: ProductSimplified) {
+        viewModelScope.launch {
+            _uiState.value = ProductsUiState.ProductSelected(product)
+        }
+    }
 }
 
 sealed class ProductsUiState {
     data class Success(val products: List<ProductSimplified>) : ProductsUiState()
     object Loading : ProductsUiState()
     data class Error(val exception: Throwable) : ProductsUiState()
+    data class ProductSelected(val product: ProductSimplified) : ProductsUiState()
 }

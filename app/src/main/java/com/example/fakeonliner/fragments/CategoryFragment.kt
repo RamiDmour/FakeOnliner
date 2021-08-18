@@ -22,11 +22,7 @@ class CategoryFragment : Fragment(R.layout.category_fragment) {
     private val binding by viewBinding(CategoryFragmentBinding::bind)
     private val categoryViewModel: CategoryViewModel by viewModel()
     private val categoryListAdapter = CategoryAdapter(emptyList()) { category ->
-        parentFragmentManager.commit {
-            setReorderingAllowed(true)
-            replace(R.id.root_container, ProductsFragment.newInstance(category))
-            addToBackStack(null)
-        }
+        categoryViewModel.selectCategory(category)
     }
 
     companion object {
@@ -62,6 +58,13 @@ class CategoryFragment : Fragment(R.layout.category_fragment) {
                     }
                     CategoryUiState.Loading -> {
                         loadingVisibility(true, loadingDialog)
+                    }
+                    is CategoryUiState.CategorySelected -> {
+                        parentFragmentManager.commit {
+                            setReorderingAllowed(true)
+                            replace(R.id.root_container, ProductsFragment.newInstance(it.category))
+                            addToBackStack(null)
+                        }
                     }
                 }
             }
