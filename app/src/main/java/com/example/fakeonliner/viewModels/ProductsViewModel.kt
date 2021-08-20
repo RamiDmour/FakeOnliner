@@ -1,20 +1,21 @@
 package com.example.fakeonliner.viewModels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fakeonliner.models.ProductSimplified
 import com.example.fakeonliner.repos.ProductRepo
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class ProductsViewModel(repo: ProductRepo, categoryId: String) : ViewModel() {
     private val _uiState = MutableStateFlow<ProductsUiState>(ProductsUiState.Loading)
     val uiState: StateFlow<ProductsUiState> = _uiState
-    private val _eventChannel = Channel<ProductsEvent>()
-    val eventFlow = _eventChannel.receiveAsFlow()
+    private val _eventFlow = MutableSharedFlow<ProductsEvent>()
+    val eventFlow: SharedFlow<ProductsEvent> = _eventFlow
 
     init {
         viewModelScope.launch {
@@ -26,10 +27,12 @@ class ProductsViewModel(repo: ProductRepo, categoryId: String) : ViewModel() {
         }
     }
 
-    fun selectProduct(product: ProductSimplified) =
+    fun selectProduct(product: ProductSimplified) {
         viewModelScope.launch {
-            _eventChannel.send(ProductsEvent.ProductSelected(product))
+            Log.d("CHECK_FLOW", "Navigate from Products")
+            _eventFlow.emit(ProductsEvent.ProductSelected(product))
         }
+    }
 }
 
 sealed class ProductsUiState {

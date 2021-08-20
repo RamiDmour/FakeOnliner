@@ -5,18 +5,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fakeonliner.models.Category
 import com.example.fakeonliner.repos.CategoryRepo
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class CategoryViewModel(private val categoryRepo: CategoryRepo) : ViewModel() {
 
     private val _uiState = MutableStateFlow<CategoryUiState>(CategoryUiState.Loading)
     val uiState: StateFlow<CategoryUiState> = _uiState
-    private val _eventChannel = Channel<CategoryEvent>()
-    val eventFlow = _eventChannel.receiveAsFlow()
+    private val _eventFlow = MutableSharedFlow<CategoryEvent>()
+    val eventFlow: SharedFlow<CategoryEvent> = _eventFlow
 
     init {
         fetchCategories()
@@ -35,8 +35,11 @@ class CategoryViewModel(private val categoryRepo: CategoryRepo) : ViewModel() {
         }
     }
 
-    fun selectCategory(category: Category) = viewModelScope.launch {
-        _eventChannel.send(CategoryEvent.CategorySelected(category))
+    fun selectCategory(category: Category) {
+        viewModelScope.launch {
+            Log.d("CHECK_FLOW", "Navigate from category")
+            _eventFlow.emit(CategoryEvent.CategorySelected(category))
+        }
     }
 }
 

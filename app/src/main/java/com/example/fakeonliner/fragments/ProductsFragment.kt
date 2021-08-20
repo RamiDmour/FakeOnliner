@@ -3,10 +3,13 @@ package com.example.fakeonliner.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakeonliner.R
 import com.example.fakeonliner.adapters.ProductsAdapter
@@ -19,6 +22,7 @@ import com.example.fakeonliner.viewModels.ProductsViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -38,6 +42,11 @@ class ProductsFragment : Fragment(R.layout.products_fragment) {
         }
     }
 
+    override fun onDestroy() {
+        Log.d("CHECK_FLOW", "DESTROY: PRODUCTS")
+        super.onDestroy()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -46,33 +55,37 @@ class ProductsFragment : Fragment(R.layout.products_fragment) {
 
         val loadingDialog = LoadingDialog(requireContext())
 
-        lifecycleScope.launchWhenStarted {
-            productsViewModel.uiState.collect {
-                when (it) {
-                    is ProductsUiState.Error -> {
-                        Snackbar.make(
-                            binding.root,
-                            it.exception.localizedMessage,
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                        loadingVisibility(false, loadingDialog)
-                    }
-                    ProductsUiState.Loading -> loadingVisibility(true, loadingDialog)
-                    is ProductsUiState.Success -> {
-                        productsAdapter.updateData(it.products)
-                        loadingVisibility(false, loadingDialog)
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                Log.d("CHECK_FLOW", "Handle event: PRODUCTS")
+                launch {
+                    productsViewModel.eventFlow.collect {
+                        when (it) {
+                            is ProductsEvent.ProductSelected -> {
+                                val browserIntent =
+                                    Intent(Intent.ACTION_VIEW, Uri.parse(it.product.productUri))
+                                requireContext().startActivity(browserIntent)
+                            }
+                        }
                     }
                 }
-            }
-        }
-
-        lifecycleScope.launchWhenStarted {
-            productsViewModel.eventFlow.collect {
-                when (it) {
-                    is ProductsEvent.ProductSelected -> {
-                        val browserIntent =
-                            Intent(Intent.ACTION_VIEW, Uri.parse(it.product.productUri))
-                        requireContext().startActivity(browserIntent)
+                launch {
+                    productsViewModel.uiState.collect {
+                        when (it) {
+                            is ProductsUiState.Error -> {
+                                Snackbar.make(
+                                    binding.root,
+                                    it.exception.localizedMessage,
+                                    Snackbar.LENGTH_LONG
+                                ).show()
+                                loadingVisibility(false, loadingDialog)
+                            }
+                            ProductsUiState.Loading -> loadingVisibility(true, loadingDialog)
+                            is ProductsUiState.Success -> {
+                                productsAdapter.updateData(it.products)
+                                loadingVisibility(false, loadingDialog)
+                            }
+                        }
                     }
                 }
             }
