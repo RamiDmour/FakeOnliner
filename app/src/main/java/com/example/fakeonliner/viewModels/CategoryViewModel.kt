@@ -37,7 +37,6 @@ class CategoryViewModel(private val categoryRepo: CategoryRepo) : ViewModel() {
 
     fun selectCategory(category: Category) {
         viewModelScope.launch {
-            Log.d("CHECK_FLOW", "Navigate from category")
             _eventFlow.emit(CategoryEvent.CategorySelected(category))
         }
     }

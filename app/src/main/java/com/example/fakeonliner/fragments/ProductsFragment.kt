@@ -3,7 +3,6 @@ package com.example.fakeonliner.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -42,11 +41,6 @@ class ProductsFragment : Fragment(R.layout.products_fragment) {
         }
     }
 
-    override fun onDestroy() {
-        Log.d("CHECK_FLOW", "DESTROY: PRODUCTS")
-        super.onDestroy()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -57,7 +51,6 @@ class ProductsFragment : Fragment(R.layout.products_fragment) {
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                Log.d("CHECK_FLOW", "Handle event: PRODUCTS")
                 launch {
                     productsViewModel.eventFlow.collect {
                         when (it) {

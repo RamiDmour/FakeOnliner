@@ -29,7 +29,6 @@ class ProductsViewModel(repo: ProductRepo, categoryId: String) : ViewModel() {
 
     fun selectProduct(product: ProductSimplified) {
         viewModelScope.launch {
-            Log.d("CHECK_FLOW", "Navigate from Products")
             _eventFlow.emit(ProductsEvent.ProductSelected(product))
         }
     }

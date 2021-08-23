@@ -1,7 +1,6 @@
 package com.example.fakeonliner.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -34,10 +33,6 @@ class CategoryFragment : Fragment(R.layout.category_fragment) {
         fun newInstance() = CategoryFragment()
     }
 
-    override fun onDestroy() {
-        Log.d("CHECK_FLOW", "DESTROY: CATEGORY")
-        super.onDestroy()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,7 +48,6 @@ class CategoryFragment : Fragment(R.layout.category_fragment) {
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                Log.d("CHECK_FLOW", "Handle event: CATEGORY")
                 launch {
                     categoryViewModel.eventFlow.collect {
                         when (it) {
