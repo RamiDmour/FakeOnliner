@@ -60,7 +60,7 @@ class CategoryFragment : Fragment(R.layout.category_fragment) {
                             is CategoryEvent.CategorySelected -> {
                                 parentFragmentManager.commit {
                                     setReorderingAllowed(true)
-                                    replace(
+                                    add(
                                         R.id.root_container,
                                         ProductsFragment.newInstance(it.category)
                                     )
