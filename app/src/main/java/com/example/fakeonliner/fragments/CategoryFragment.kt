@@ -46,7 +46,7 @@ class CategoryFragment : Fragment(R.layout.category_fragment) {
 
         val loadingDialog = LoadingDialog(requireContext())
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     categoryViewModel.eventFlow.collect {
@@ -54,7 +54,7 @@ class CategoryFragment : Fragment(R.layout.category_fragment) {
                             is CategoryEvent.CategorySelected -> {
                                 parentFragmentManager.commit {
                                     setReorderingAllowed(true)
-                                    add(
+                                    replace(
                                         R.id.root_container,
                                         ProductsFragment.newInstance(it.category)
                                     )
