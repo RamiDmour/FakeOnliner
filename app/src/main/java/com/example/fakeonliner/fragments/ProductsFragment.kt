@@ -6,18 +6,22 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fakeonliner.R
 import com.example.fakeonliner.adapters.ProductsAdapter
 import com.example.fakeonliner.components.LoadingDialog
 import com.example.fakeonliner.databinding.ProductsFragmentBinding
 import com.example.fakeonliner.models.Category
+import com.example.fakeonliner.viewModels.ProductsEvent
 import com.example.fakeonliner.viewModels.ProductsUiState
 import com.example.fakeonliner.viewModels.ProductsViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.zhuinden.fragmentviewbindingdelegatekt.viewBinding
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -26,8 +30,7 @@ class ProductsFragment : Fragment(R.layout.products_fragment) {
         parametersOf(requireArguments().getString(CATEGORY_ID_KEY))
     }
     private val productsAdapter = ProductsAdapter(emptyList()) { product ->
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(product.productUri))
-        requireContext().startActivity(browserIntent)
+        productsViewModel.selectProduct(product)
     }
     private val binding by viewBinding(ProductsFragmentBinding::bind)
 
@@ -46,21 +49,36 @@ class ProductsFragment : Fragment(R.layout.products_fragment) {
 
         val loadingDialog = LoadingDialog(requireContext())
 
-        lifecycleScope.launchWhenStarted {
-            productsViewModel.uiState.collect {
-                when (it) {
-                    is ProductsUiState.Error -> {
-                        Snackbar.make(
-                            binding.root,
-                            it.exception.localizedMessage,
-                            Snackbar.LENGTH_LONG
-                        ).show()
-                        loadingVisibility(false, loadingDialog)
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    productsViewModel.eventFlow.collect {
+                        when (it) {
+                            is ProductsEvent.ProductSelected -> {
+                                val browserIntent =
+                                    Intent(Intent.ACTION_VIEW, Uri.parse(it.product.productUri))
+                                requireContext().startActivity(browserIntent)
+                            }
+                        }
                     }
-                    ProductsUiState.Loading -> loadingVisibility(true, loadingDialog)
-                    is ProductsUiState.Success -> {
-                        productsAdapter.updateData(it.products)
-                        loadingVisibility(false, loadingDialog)
+                }
+                launch {
+                    productsViewModel.uiState.collect {
+                        when (it) {
+                            is ProductsUiState.Error -> {
+                                Snackbar.make(
+                                    binding.root,
+                                    it.exception.localizedMessage,
+                                    Snackbar.LENGTH_LONG
+                                ).show()
+                                loadingVisibility(false, loadingDialog)
+                            }
+                            ProductsUiState.Loading -> loadingVisibility(true, loadingDialog)
+                            is ProductsUiState.Success -> {
+                                productsAdapter.updateData(it.products)
+                                loadingVisibility(false, loadingDialog)
+                            }
+                        }
                     }
                 }
             }
