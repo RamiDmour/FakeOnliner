@@ -49,7 +49,7 @@ class ProductsFragment : Fragment(R.layout.products_fragment) {
 
         val loadingDialog = LoadingDialog(requireContext())
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     productsViewModel.eventFlow.collect {
